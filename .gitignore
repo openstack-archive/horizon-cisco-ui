@@ -1,0 +1,12 @@
+*.pyc
+.DS_STORE
+.venv
+.tox
+*.test_secret_key_store.lock
+node_modules
+npm-debug.log
+doc/build
+*.egg-info/
+.eggs/
+doc/source/sourcecode
+
