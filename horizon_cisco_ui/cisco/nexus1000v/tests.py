@@ -64,7 +64,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         net_profile = self.net_profiles.first()
         params = {'name': net_profile.name,
                   'segment_type': net_profile.segment_type,
-                  'segment_range': net_profile.segment_range,
                   'physical_network': net_profile.physical_network,
                   'tenant_id': net_profile.project,
                   # vlan profiles have no sub_type or multicast_ip_range
@@ -79,7 +78,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
 
         form_data = {'name': net_profile.name,
                      'segment_type': net_profile.segment_type,
-                     'segment_range': net_profile.segment_range,
                      'physical_network': net_profile.physical_network,
                      'project': net_profile.project}
         form_data.update(form_data_no_overlay())
@@ -98,7 +96,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         net_profile = self.net_profiles.list()[1]
         params = {'name': net_profile.name,
                   'segment_type': net_profile.segment_type,
-                  'segment_range': net_profile.segment_range,
                   'multicast_ip_range': net_profile.multicast_ip_range,
                   'sub_type': net_profile.sub_type,
                   'tenant_id': net_profile.project,
@@ -113,7 +110,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
 
         form_data = {'name': net_profile.name,
                      'segment_type': net_profile.segment_type,
-                     'segment_range': net_profile.segment_range,
                      'multicast_ip_range': net_profile.multicast_ip_range,
                      'sub_type': net_profile.sub_type,
                      'project': net_profile.project}
@@ -133,7 +129,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         net_profile = self.net_profiles.list()[2]
         params = {'name': net_profile.name,
                   'segment_type': net_profile.segment_type,
-                  'segment_range': net_profile.segment_range,
                   'sub_type': net_profile.other_subtype,
                   'tenant_id': net_profile.project,
                   # overlay 'other' profiles have no multicast_ip_range
@@ -149,45 +144,10 @@ class Nexus1000vTest(test.BaseAdminViewTests):
 
         form_data = {'name': net_profile.name,
                      'segment_type': net_profile.segment_type,
-                     'segment_range': net_profile.segment_range,
                      'sub_type': net_profile.sub_type,
                      'other_subtype': net_profile.other_subtype,
                      'project': net_profile.project}
         form_data.update(form_data_overlay())
-        url = reverse('horizon:cisco:nexus1000v:create_network_profile')
-        res = self.client.post(url, form_data)
-
-        self.assertNoFormErrors(res)
-        self.assertRedirectsNoFollow(res,
-                                     reverse
-                                     ('horizon:cisco:nexus1000v:index'))
-
-    @test.create_stubs({api.neutron: ('profile_create',),
-                        api.keystone: ('tenant_list',)})
-    def test_create_trunk_net_profile(self):
-        tenants = self.tenants.list()
-        net_profile = self.net_profiles.list()[3]
-        params = {'name': net_profile.name,
-                  'segment_type': net_profile.segment_type,
-                  'sub_type': net_profile.sub_type_trunk,
-                  'tenant_id': net_profile.project,
-                  # trunk profiles have no multicast_ip_range,
-                  # no segment_range or no physical_network type
-                  'multicast_ip_range': '',
-                  'segment_range': '',
-                  'physical_network': ''}
-
-        api.neutron.profile_create(IsA(http.HttpRequest),
-                                   **params).AndReturn(net_profile)
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
-        self.mox.ReplayAll()
-
-        form_data = {'name': net_profile.name,
-                     'segment_type': net_profile.segment_type,
-                     'sub_type_trunk': net_profile.sub_type_trunk,
-                     'project': net_profile.project}
-        form_data.update(form_data_no_overlay())
         url = reverse('horizon:cisco:nexus1000v:create_network_profile')
         res = self.client.post(url, form_data)
 
@@ -234,7 +194,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         net_profile_binding = self.network_profile_binding.list()
         # vlan profiles can only update name and segment_range
         params = {'name': net_profile.name,
-                  'segment_range': net_profile.segment_range,
                   # vlan profiles have no multicast_ip_range
                   'multicast_ip_range': ''}
 
@@ -257,7 +216,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         form_data = {'profile_id': net_profile.id,
                      'name': net_profile.name,
                      'segment_type': net_profile.segment_type,
-                     'segment_range': net_profile.segment_range,
                      'physical_network': net_profile.physical_network,
                      'project': net_profile.project}
         form_data.update(form_data_no_overlay())
@@ -279,9 +237,8 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         net_profile = self.net_profiles.get(name="net_profile_test2")
         net_profile_binding = self.network_profile_binding.list()
         # overlay profiles can only update
-        # name, segment_range and multicast_ip_range
+        # name and multicast_ip_range
         params = {'name': net_profile.name,
-                  'segment_range': net_profile.segment_range,
                   'multicast_ip_range': net_profile.multicast_ip_range}
 
         api.neutron.profile_update(
@@ -303,7 +260,6 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         form_data = {'profile_id': net_profile.id,
                      'name': net_profile.name,
                      'segment_type': net_profile.segment_type,
-                     'segment_range': net_profile.segment_range,
                      'multicast_ip_range': net_profile.multicast_ip_range,
                      'sub_type': net_profile.sub_type,
                      'project': net_profile.project}

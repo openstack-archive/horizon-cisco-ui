@@ -47,8 +47,7 @@ class CreateNetworkProfile(forms.SelfHandlingForm):
                            label=_("Name"))
     segment_type = forms.ChoiceField(label=_('Segment Type'),
                                      choices=[('vlan', _('VLAN')),
-                                              ('overlay', _('Overlay')),
-                                              ('trunk', _('Trunk'))],
+                                              ('overlay', _('Overlay'))],
                                      widget=forms.Select
                                      (attrs={'class': 'switchable',
                                              'data-slug': 'segtype'}))
@@ -64,27 +63,6 @@ class CreateNetworkProfile(forms.SelfHandlingForm):
                                          'data-switch-on': 'segtype',
                                          'data-segtype-overlay':
                                              _("Sub Type")}))
-    # Sub type options available for Trunk segment type
-    sub_type_trunk = forms.ChoiceField(label=_('Sub Type'),
-                                       choices=[('vlan', _('VLAN'))],
-                                       required=False,
-                                       widget=forms.Select
-                                       (attrs={'class': 'switched',
-                                               'data-switch-on': 'segtype',
-                                               'data-segtype-trunk':
-                                                   _("Sub Type")}))
-    segment_range = forms.CharField(max_length=255,
-                                    label=_("Segment Range"),
-                                    required=False,
-                                    widget=forms.TextInput
-                                    (attrs={'class': 'switched',
-                                            'data-switch-on': 'segtype',
-                                            'data-segtype-vlan':
-                                                _("Segment Range"),
-                                            'data-segtype-overlay':
-                                                _("Segment Range")}),
-                                    help_text=_("1-4093 for VLAN; "
-                                                "5000 and above for Overlay"))
     multicast_ip_range = forms.CharField(max_length=30,
                                          label=_("Multicast IP Range"),
                                          required=False,
@@ -124,8 +102,6 @@ class CreateNetworkProfile(forms.SelfHandlingForm):
         self.fields['project'].choices = get_tenant_choices(request)
 
     def clean(self):
-        # If sub_type is 'other' or 'trunk' then
-        # assign this new value for sub_type
         cleaned_data = super(CreateNetworkProfile, self).clean()
 
         segment_type = cleaned_data.get('segment_type')
@@ -136,11 +112,6 @@ class CreateNetworkProfile(forms.SelfHandlingForm):
                 cleaned_data['sub_type'] = other_subtype
                 LOG.debug('subtype is now %(params)s',
                           {'params': other_subtype})
-        elif segment_type == 'trunk':
-            sub_type_trunk = cleaned_data.get('sub_type_trunk')
-            cleaned_data['sub_type'] = sub_type_trunk
-            LOG.debug('subtype is now %(params)s',
-                      {'params': sub_type_trunk})
 
         return cleaned_data
 
@@ -151,7 +122,6 @@ class CreateNetworkProfile(forms.SelfHandlingForm):
             params = {'name': data['name'],
                       'segment_type': data['segment_type'],
                       'sub_type': data['sub_type'],
-                      'segment_range': data['segment_range'],
                       'physical_network': data['physical_network'],
                       'multicast_ip_range': data['multicast_ip_range'],
                       'tenant_id': data['project']}
@@ -181,7 +151,6 @@ class UpdateNetworkProfile(CreateNetworkProfile):
 
         self.fields['segment_type'].widget.attrs['readonly'] = 'readonly'
         self.fields['sub_type'].widget.attrs['readonly'] = 'readonly'
-        self.fields['sub_type_trunk'].widget.attrs['readonly'] = 'readonly'
         self.fields['other_subtype'].widget.attrs['readonly'] = 'readonly'
         self.fields['physical_network'].widget.attrs['readonly'] = 'readonly'
         self.fields['project'].widget.attrs['readonly'] = 'readonly'
@@ -191,7 +160,6 @@ class UpdateNetworkProfile(CreateNetworkProfile):
             LOG.debug('request = %(req)s, params = %(params)s',
                       {'req': request, 'params': data})
             params = {'name': data['name'],
-                      'segment_range': data['segment_range'],
                       'multicast_ip_range': data['multicast_ip_range']}
             profile = api.neutron.profile_update(
                 request,
