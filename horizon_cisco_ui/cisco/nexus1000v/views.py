@@ -161,7 +161,6 @@ class UpdateNetworkProfileView(forms.ModalFormView):
         project_name = getattr(project, 'name', project_id)
         return {'profile_id': profile['id'],
                 'name': profile['name'],
-                'segment_range': profile['segment_range'],
                 'segment_type': profile['segment_type'],
                 'physical_network': profile['physical_network'],
                 'sub_type': profile['sub_type'],
