@@ -15,8 +15,21 @@
 
 from horizon_cisco_ui.firewalls \
     import views as cisco_firewall_views
+from openstack_dashboard import api
 from openstack_dashboard.dashboards.project.firewalls \
     import views as firewall_views
+
+from horizon_cisco_ui.dashboards.project.instances.workflows import \
+    create_instance as cisco_create_instance
+from openstack_dashboard.dashboards.project.instances.workflows import \
+    create_instance as upstream_create_instance
+
+
+if api.neutron.is_port_profiles_supported():
+    upstream_create_instance.LaunchInstance.handle = \
+        cisco_create_instance.LaunchInstance.handle
+    upstream_create_instance.LaunchInstance.default_steps = \
+        cisco_create_instance.LaunchInstance.default_steps
 
 # TODO(robcresswell): remove example
 # Silly example that does nothing, but illustrates an override.
