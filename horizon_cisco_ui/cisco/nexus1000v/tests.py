@@ -48,10 +48,8 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         api.neutron.profile_bindings_list(
             IsA(http.HttpRequest),
             'policy').AndReturn(policy_profile_binding)
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
+        api.keystone.tenant_list(IsA(http.HttpRequest)).MultipleTimes().\
+            AndReturn([tenants, False])
         self.mox.ReplayAll()
 
         res = self.client.get(reverse('horizon:cisco:nexus1000v:index'))
@@ -163,16 +161,14 @@ class Nexus1000vTest(test.BaseAdminViewTests):
         tenants = self.tenants.list()
         net_profile = self.net_profiles.first()
         net_profile_binding = self.network_profile_binding.list()
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
         api.neutron.profile_bindings_list(
             IsA(http.HttpRequest),
             'network').AndReturn(net_profile_binding)
         api.neutron.profile_get(
             IsA(http.HttpRequest),
             net_profile.id).AndReturn(net_profile)
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
+        api.keystone.tenant_list(IsA(http.HttpRequest)).MultipleTimes().\
+            AndReturn([tenants, False])
 
         self.mox.ReplayAll()
 
@@ -201,16 +197,14 @@ class Nexus1000vTest(test.BaseAdminViewTests):
             IsA(http.HttpRequest),
             net_profile.id,
             **params).AndReturn(net_profile)
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
         api.neutron.profile_bindings_list(
             IsA(http.HttpRequest),
             'network').AndReturn(net_profile_binding)
         api.neutron.profile_get(
             IsA(http.HttpRequest),
             net_profile.id).AndReturn(net_profile)
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
+        api.keystone.tenant_list(IsA(http.HttpRequest)).MultipleTimes().\
+            AndReturn([tenants, False])
         self.mox.ReplayAll()
 
         form_data = {'profile_id': net_profile.id,
@@ -245,16 +239,14 @@ class Nexus1000vTest(test.BaseAdminViewTests):
             IsA(http.HttpRequest),
             net_profile.id,
             **params).AndReturn(net_profile)
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
         api.neutron.profile_bindings_list(
             IsA(http.HttpRequest),
             'network').AndReturn(net_profile_binding)
         api.neutron.profile_get(
             IsA(http.HttpRequest),
             net_profile.id).AndReturn(net_profile)
-        api.keystone.tenant_list(
-            IsA(http.HttpRequest)).AndReturn([tenants, False])
+        api.keystone.tenant_list(IsA(http.HttpRequest)).MultipleTimes().\
+            AndReturn([tenants, False])
         self.mox.ReplayAll()
 
         form_data = {'profile_id': net_profile.id,
