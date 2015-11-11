@@ -1,0 +1,198 @@
+# Translations template for PROJECT.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-11-11 09:29+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.1.1\n"
+
+#: cisco/dashboard.py:19
+msgid "Cisco"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:29
+msgid "Select a project"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:34
+msgid "Projects could not be retrieved."
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:47
+msgid "Name"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:48 cisco/nexus1000v/tables.py:75
+msgid "Segment Type"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:49
+msgid "VLAN"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:50
+msgid "Overlay"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:55 cisco/nexus1000v/forms.py:65
+#: cisco/nexus1000v/tables.py:77
+msgid "Sub Type"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:56
+msgid "Native VXLAN"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:57
+msgid "Enhanced VXLAN"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:58
+msgid "Other"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:67 cisco/nexus1000v/forms.py:74
+#: cisco/nexus1000v/tables.py:81
+msgid "Multicast IP Range"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:75
+msgid "Multicast IPv4 range(e.g. 224.0.1.0-224.0.1.100)"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:79 cisco/nexus1000v/forms.py:86
+msgid "Sub Type Value (Manual Input)"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:88
+msgid "Enter parameter (e.g. GRE)"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:90 cisco/nexus1000v/forms.py:96
+msgid "Physical Network"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:97 cisco/nexus1000v/forms.py:147
+#: cisco/nexus1000v/tables.py:73 cisco/nexus1000v/tables.py:95
+msgid "Project"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:130
+#, python-format
+msgid "Network Profile %s was successfully created."
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:137
+#, python-format
+msgid "Failed to create network profile %s"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:144
+msgid "ID"
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:169
+#, python-format
+msgid "Network Profile %s was successfully updated."
+msgstr ""
+
+#: cisco/nexus1000v/forms.py:175
+#, python-format
+msgid "Failed to update network profile (%s)."
+msgstr ""
+
+#: cisco/nexus1000v/panel.py:21
+msgid "Nexus 1000v"
+msgstr ""
+
+#: cisco/nexus1000v/tables.py:29 cisco/nexus1000v/views.py:105
+#: cisco/nexus1000v/views.py:107 cisco/nexus1000v/views.py:111
+msgid "Create Network Profile"
+msgstr ""
+
+#: cisco/nexus1000v/tables.py:38
+msgid "Delete Network Profile"
+msgid_plural "Delete Network Profiles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cisco/nexus1000v/tables.py:46
+msgid "Deleted Network Profile"
+msgid_plural "Deleted Network Profiles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cisco/nexus1000v/tables.py:56
+#, python-format
+msgid "Failed to delete network profile (%s)."
+msgstr ""
+
+#: cisco/nexus1000v/tables.py:64 cisco/nexus1000v/views.py:117
+msgid "Edit Network Profile"
+msgstr ""
+
+#: cisco/nexus1000v/tables.py:72 cisco/nexus1000v/tables.py:87
+#: cisco/nexus1000v/tabs.py:19
+msgid "Network Profile"
+msgstr ""
+
+#: cisco/nexus1000v/tables.py:79
+msgid "Segment Range"
+msgstr ""
+
+#: cisco/nexus1000v/tables.py:83
+msgid "Physical Network Name"
+msgstr ""
+
+#: cisco/nexus1000v/tables.py:94 cisco/nexus1000v/tables.py:99
+#: cisco/nexus1000v/tabs.py:28
+msgid "Policy Profile"
+msgstr ""
+
+#: cisco/nexus1000v/views.py:40
+msgid "Unable to retrieve project information."
+msgstr ""
+
+#: cisco/nexus1000v/views.py:51
+msgid "Network Profiles could not be retrieved."
+msgstr ""
+
+#: cisco/nexus1000v/views.py:69
+msgid "Nexus 1000V"
+msgstr ""
+
+#: cisco/nexus1000v/views.py:78 cisco/nexus1000v/views.py:93
+msgid "Cisco Nexus 1000V"
+msgstr ""
+
+#: cisco/nexus1000v/views.py:120
+msgid "Save Changes"
+msgstr ""
+
+#: cisco/nexus1000v/views.py:123
+msgid "Update Network Profile"
+msgstr ""
+
+#: cisco/nexus1000v/views.py:143
+msgid "Unable to retrieve network profile details."
+msgstr ""
+
+#: cisco/nexus1000v/views.py:154
+msgid "Failed to obtain network profile binding"
+msgstr ""
+
+#: firewalls/views.py:23
+msgid "Cisco Firewalls"
+msgstr ""
+

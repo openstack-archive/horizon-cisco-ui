@@ -410,7 +410,7 @@ function babel_extract {
 function run_makemessages {
 
   echo -n "cisco ui: "
-  cd horizon_cisco_ui/cisco
+  cd horizon_cisco_ui
   babel_extract django
   CISCO_PY_RESULT=$?
 
@@ -420,7 +420,7 @@ function run_makemessages {
 
   cd ../..
   if [ $check_only -eq 1 ]; then
-    git checkout -- horizon_cisco_ui/cisco/locale/django*.pot
+    git checkout -- horizon_cisco_ui/locale/django*.pot
   fi
 
   exit $(($CISCO_PY_RESULT || $CISCO_JS_RESULT))
