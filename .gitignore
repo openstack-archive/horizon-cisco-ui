@@ -11,4 +11,4 @@ doc/build
 .eggs/
 doc/source/sourcecode
 *.swp
-
+ChangeLog
