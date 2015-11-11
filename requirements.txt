@@ -7,4 +7,4 @@
 # be installed in a specific order.
 #
 # PBR should always appear first
-pbr<2.0,>=1.3
+pbr>=1.6
