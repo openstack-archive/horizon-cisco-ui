@@ -10,4 +10,5 @@ doc/build
 *.egg-info/
 .eggs/
 doc/source/sourcecode
+*.swp
 
