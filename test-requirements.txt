@@ -15,7 +15,6 @@ django-nose>=1.2
 flake8<=2.4.1,>=2.2.4
 mock>=1.2
 mox3>=0.7.0
-nodeenv>=0.9.4 # BSD License
 nose
 nose-exclude
 nosehtmloutput>=0.0.3
