@@ -1,5 +1,8 @@
 CHANGES
 =======
 
+* Drop run_tests.sh, and just use tox
+* Sync requirements with global-requirements
+* N1Kv: remove trunk & segment range support
 * Initial commit
 * Added .gitreview

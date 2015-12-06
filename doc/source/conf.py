@@ -24,6 +24,7 @@
 
 from __future__ import print_function
 
+import django
 import os
 import sys
 
@@ -39,6 +40,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 from horizon_cisco_ui \
     import version as cisco_ver
 
+django.setup()
 
 def write_autodoc_index():
 
@@ -68,7 +70,7 @@ def write_autodoc_index():
     RSTDIR = os.path.abspath(os.path.join(BASE_DIR, "sourcecode"))
     SRCS = [('horizon_cisco_ui', ROOT), ]
 
-    EXCLUDED_MODULES = ()
+    EXCLUDED_MODULES = ('horizon_cisco_ui.enabled',)
     CURRENT_SOURCES = {}
 
     if not(os.path.exists(RSTDIR)):
