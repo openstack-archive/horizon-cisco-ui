@@ -1,14 +1,15 @@
-# Translations template for PROJECT.
+# Translations template for horizon-cisco-ui.
 # Copyright (C) 2015 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the horizon-cisco-ui
+# project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: horizon-cisco-ui 0.0.1.dev8\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-12-06 16:31+0000\n"
+"POT-Creation-Date: 2015-12-07 10:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,6 +128,7 @@ msgstr ""
 #: horizon_cisco_ui/cisco/nexus1000v/views.py:105
 #: horizon_cisco_ui/cisco/nexus1000v/views.py:107
 #: horizon_cisco_ui/cisco/nexus1000v/views.py:111
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/create_network_profile.html:3
 msgid "Create Network Profile"
 msgstr ""
 
@@ -182,6 +184,7 @@ msgid "Save Changes"
 msgstr ""
 
 #: horizon_cisco_ui/cisco/nexus1000v/views.py:123
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/update_network_profile.html:3
 msgid "Update Network Profile"
 msgstr ""
 
@@ -191,6 +194,61 @@ msgstr ""
 
 #: horizon_cisco_ui/cisco/nexus1000v/views.py:154
 msgid "Failed to obtain network profile binding"
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:5
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_update_network_profile.html:5
+msgid "Description:"
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:6
+msgid "Name:"
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:6
+msgid " Select a name for your network profile."
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:7
+msgid "Segment Type:"
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:7
+msgid " Segment types available are VLAN, Overlay and Trunk."
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:8
+msgid "Segment Sub Type:"
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:8
+msgid ""
+" Sub types available are for the Overlay and Trunk segments. Available "
+"sub-types for Overlay are: Native-VXLAN, Enhanced-VXLAN or 'Other' (eg. "
+"GRE) which can be manually inputed as a text parameter for subtype. "
+"Available sub-type for Trunk is: VLAN."
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:9
+msgid "Segment Range:"
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_create_network_profile.html:9
+msgid ""
+" Segment Ranges are 1-4093 for VLAN and above 5000 for Enhanced-VXLAN "
+"Overlay."
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/_update_network_profile.html:6
+msgid ""
+"Edit the network profile to update name, segment range or multicast IP "
+"range."
+msgstr ""
+
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/index.html:3
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/network_profile/index.html:3
+#: horizon_cisco_ui/cisco/nexus1000v/templates/nexus1000v/policy_profile/index.html:3
+msgid "Cisco Nexus 1000V Networking"
 msgstr ""
 
 #: horizon_cisco_ui/firewalls/views.py:23
