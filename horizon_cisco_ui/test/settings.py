@@ -16,4 +16,4 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from openstack_dashboard.test.settings import *  # noqa
+SECRET_KEY = 'yJ6PAO3y8BbCot5TqML4D14WxL1okmz1'
