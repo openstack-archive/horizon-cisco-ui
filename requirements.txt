@@ -9,4 +9,5 @@
 # PBR should always appear first
 pbr>=1.6
 
+django-babel>=0.4.0
 reno>=0.1.1  # Apache2
