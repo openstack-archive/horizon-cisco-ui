@@ -16,4 +16,13 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+# Small hack to ensure that the tests don't fail, due to the developer
+# dashboard hitting settings
+from horizon.utils import secret_key
+import os
+LOCAL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'local')
+SECRET_KEY = secret_key.generate_or_read_from_file(os.path.join(LOCAL_PATH,
+                                                   '.secret_key_store'))
+
+# Fall back to default o_d settings so we don't need to maintain our own
 from openstack_dashboard.test.settings import *  # noqa
