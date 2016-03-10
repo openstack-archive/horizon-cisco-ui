@@ -168,7 +168,6 @@ write_autodoc_index()
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.todo',
               'sphinx.ext.coverage',
-              'sphinx.ext.pngmath',
               'sphinx.ext.viewcode',
               'oslosphinx',
               ]
