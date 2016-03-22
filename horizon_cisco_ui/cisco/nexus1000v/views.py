@@ -10,11 +10,11 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from collections import OrderedDict
 import logging
 
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
-from django.utils import datastructures
 from django.utils.translation import ugettext_lazy as _
 
 from horizon import exceptions
@@ -40,7 +40,7 @@ def _get_tenant_list(request):
         msg = _('Unable to retrieve project information.')
         exceptions.handle(request, msg)
 
-    return datastructures.SortedDict([(t.id, t) for t in tenants])
+    return OrderedDict([(t.id, t) for t in tenants])
 
 
 def _get_profiles(request, type_p):
@@ -54,7 +54,7 @@ def _get_profiles(request, type_p):
         # Set project name
         tenant_dict = _get_tenant_list(request)
         bindings = api.neutron.profile_bindings_list(request, type_p)
-        bindings_dict = datastructures.SortedDict(
+        bindings_dict = OrderedDict(
             [(b.profile_id, b.tenant_id) for b in bindings])
         for p in profiles:
             project_id = bindings_dict.get(p.id)
@@ -154,7 +154,7 @@ class UpdateNetworkProfileView(forms.ModalFormView):
             msg = _('Failed to obtain network profile binding')
             redirect = self.success_url
             exceptions.handle(self.request, msg, redirect=redirect)
-        bindings_dict = datastructures.SortedDict(
+        bindings_dict = OrderedDict(
             [(b.profile_id, b.tenant_id) for b in bindings])
         project_id = bindings_dict.get(profile.id)
         project = tenant_dict.get(project_id)
