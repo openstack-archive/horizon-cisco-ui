@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<div class="detail">
+  <dl class="dl-horizontal">
+    <dt>{% trans "Config Agent Driver" %}</dt>
+    <dd>{{ router_type.cfg_agent_driver }}</dd>
+    <dt>{% trans "Config Agent Service Helper" %}</dt>
+    <dd>{{ router_type.cfg_agent_service_helper }}</dd>
+    <dt>{% trans "Description" %}</dt>
+    <dd>{{ router_type.description }}</dd>
+    <dt>{% trans "Driver" %}</dt>
+    <dd>{{ router_type.driver }}</dd>
+    <dt>{% trans "HA Enabled By Default" %}</dt>
+    <dd>{{ router_type.ha_enabled_by_default }}</dd>
+    <dt>{% trans "ID" %}</dt>
+    <dd>{{ router_type.id }}</dd>
+    <dt>{% trans "Name" %}</dt>
+    <dd>{{ router_type.name }}</dd>
+    <dt>{% trans "Scheduler" %}</dt>
+    <dd>{{ router_type.scheduler }}</dd>
+    <dt>{% trans "Shared" %}</dt>
+    <dd>{{ router_type.shared }}</dd>
+    <dt>{% trans "Slot Need" %}</dt>
+    <dd>{{ router_type.slot_need }}</dd>
+    <dt>{% trans "Template ID" %}</dt>
+    <dd><a href="{{ device_template_url }}">{{ router_type.template_id }}</a></dd>
+    <dt>{% trans "Tenant ID" %}</dt>
+    <dd>{{ router_type.tenant_id }}</dd>
+  </dl>
+</div>
+ 

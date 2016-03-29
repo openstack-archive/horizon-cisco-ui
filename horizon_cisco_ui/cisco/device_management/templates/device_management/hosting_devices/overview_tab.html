@@ -1,0 +1,38 @@
+{% load i18n %}
+
+<div class="detail">
+  <dl class="dl-horizontal">
+    <dt>{% trans "Admin State Up" %}</dt>
+    <dd>{{ hosting_device.admin_state_up }}</dd>
+    <dt>{% trans "Auto Delete" %}</dt>
+    <dd>{{ hosting_device.auto_delete }}</dd>
+    <dt>{% trans "Config Agent ID" %}</dt>
+    <dd>{{ hosting_device.cfg_agent_id }}</dd>
+    <dt>{% trans "Created At" %}</dt>
+    <dd>{{ hosting_device.created_at }}</dd>
+    <dt>{% trans "Credentials ID" %}</dt>
+    <dd>{{ hosting_device.credentials_id }}</dd>
+    <dt>{% trans "Description" %}</dt>
+    <dd>{{ hosting_device.description }}</dd>
+    <dt>{% trans "Device ID" %}</dt>
+    <dd>{{ hosting_device.device_id }}</dd>
+    <dt>{% trans "ID" %}</dt>
+    <dd>{{ hosting_device.id }}</dd>
+    <dt>{% trans "Management IP Address" %}</dt>
+    <dd>{{ hosting_device.management_ip_address }}</dd>
+    <dt>{% trans "Management Port ID" %}</dt>
+    <dd>{{ hosting_device.management_port_id }}</dd>
+    <dt>{% trans "Name" %}</dt>
+    <dd>{{ hosting_device.name }}</dd>
+    <dt>{% trans "Protocol Port" %}</dt>
+    <dd>{{ hosting_device.protocol_port }}</dd>
+    <dt>{% trans "Status" %}</dt>
+    <dd>{{ hosting_device.status }}</dd>
+    <dt>{% trans "Template ID" %}</dt>
+    <dd><a href="{{ device_template_url }}">{{ hosting_device.template_id }}</a></dd>
+    <dt>{% trans "Tenant Bound" %}</dt>
+    <dd>{{ hosting_device.tenant_bound }}</dd>
+    <dt>{% trans "Tenant ID" %}</dt>
+    <dd>{{ hosting_device.slow_tenant_id }}</dd>
+  </dl>
+</div>

@@ -12,16 +12,18 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from django.utils.translation import ugettext_lazy as _
+from horizon_cisco_ui.cisco.routers import tables as routers_tables
+from horizon_cisco_ui.cisco.routers import tabs as routers_tabs
 
-import horizon
+from openstack_dashboard.dashboards.admin.routers \
+    import views as routers_views
 
-from horizon_cisco_ui.cisco import dashboard
+
+class IndexView(routers_views.IndexView):
+    table_class = routers_tables.IndexTable
+    template_name = 'cisco/router_types/index.html'
 
 
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
-    permissions = ('openstack.services.network',)
-
-dashboard.Cisco.register(Nexus1000v)
+class DetailView(routers_views.DetailView):
+    tab_group_class = routers_tabs.DetailsTabs
+    template_name = 'horizon/common/_detail.html'
