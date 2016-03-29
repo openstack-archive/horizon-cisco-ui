@@ -14,14 +14,19 @@
 
 from django.utils.translation import ugettext_lazy as _
 
-import horizon
-
-from horizon_cisco_ui.cisco import dashboard
+from horizon import tables
 
 
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
-    permissions = ('openstack.services.network',)
+class HostingDeviceTemplatesTable(tables.DataTable):
+    id = tables.Column(
+        'id', verbose_name=_("ID"),
+        link="horizon:cisco:device_management:hosting_device_templates:details"
+    )
+    name = tables.Column('name', verbose_name=_("Name"))
+    host_category = tables.Column('host_category', verbose_name=_("Host Category"))
+    service_types = tables.Column('service_types', verbose_name=_("Service Types"))
+    enabled = tables.Column('enabled', verbose_name=_("Enabled"))
 
-dashboard.Cisco.register(Nexus1000v)
+    class Meta(object):
+        name = "hosting_device_templates"
+        verbose_name = _("Hosting Device Templates")
