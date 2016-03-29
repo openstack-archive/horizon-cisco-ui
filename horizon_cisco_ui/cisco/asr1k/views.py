@@ -14,14 +14,12 @@
 
 from django.utils.translation import ugettext_lazy as _
 
-import horizon
+from horizon import tabs
 
-from horizon_cisco_ui.cisco import dashboard
+from horizon_cisco_ui.cisco.asr1k import tabs as asr1k_tabs
 
 
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
-    permissions = ('openstack.services.network',)
-
-dashboard.Cisco.register(Nexus1000v)
+class IndexView(tabs.TabbedTableView):
+    tab_group_class = asr1k_tabs.IndexTabs
+    template_name = 'cisco/asr1k/index.html'
+    page_title = _("ASR1k")

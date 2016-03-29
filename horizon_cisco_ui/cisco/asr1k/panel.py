@@ -19,9 +19,9 @@ import horizon
 from horizon_cisco_ui.cisco import dashboard
 
 
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
+class Asr1k(horizon.Panel):
+    name = _("ASR1k")
+    slug = 'asr1k'
     permissions = ('openstack.services.network',)
 
-dashboard.Cisco.register(Nexus1000v)
+dashboard.Cisco.register(Asr1k)
