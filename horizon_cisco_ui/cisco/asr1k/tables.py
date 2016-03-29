@@ -1,4 +1,4 @@
-# Copyright 2015 Cisco Systems, Inc.
+# Copyright 2016 Cisco Systems, Inc.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
@@ -14,14 +14,14 @@
 
 from django.utils.translation import ugettext_lazy as _
 
-import horizon
+from horizon import tables
 
-from horizon_cisco_ui.cisco import dashboard
+class RouterTypesTable(tables.DataTable):
+    id = tables.Column('id', verbose_name=_("ID"))
+    name = tables.Column('name', verbose_name=_("Name"))
+    description = tables.Column('description', verbose_name=_("Description"))
+    template_id = tables.Column('template_id', verbose_name=_("Template ID"))
 
-
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
-    permissions = ('openstack.services.network',)
-
-dashboard.Cisco.register(Nexus1000v)
+    class Meta(object):
+        name = "router_types"
+        verbose_name = _("Router Types")
