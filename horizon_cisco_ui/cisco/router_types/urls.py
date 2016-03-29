@@ -1,4 +1,4 @@
-# Copyright 2015 Cisco Systems, Inc.
+# Copyright 2016 Cisco Systems, Inc.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
@@ -12,16 +12,16 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from django.utils.translation import ugettext_lazy as _
+from django.conf.urls import include
+from django.conf.urls import url
+from horizon_cisco_ui.cisco.router_types.routers \
+    import urls as routers_urls
+from horizon_cisco_ui.cisco.router_types import views
 
-import horizon
-
-from horizon_cisco_ui.cisco import dashboard
-
-
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
-    permissions = ('openstack.services.network',)
-
-dashboard.Cisco.register(Nexus1000v)
+urlpatterns = [
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^(?P<router_type_id>[^/]+)/$', views.DetailView.as_view(),
+        name='details'),
+    url(r'^(?P<router_type_id>[^/]+)/routers/',
+        include(routers_urls, namespace='routers')),
+]

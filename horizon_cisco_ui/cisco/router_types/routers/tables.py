@@ -1,4 +1,4 @@
-# Copyright 2015 Cisco Systems, Inc.
+# Copyright 2016 Cisco Systems, Inc.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
@@ -12,16 +12,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from django.utils.translation import ugettext_lazy as _
-
-import horizon
-
-from horizon_cisco_ui.cisco import dashboard
+from django.core.urlresolvers import reverse_lazy
+from openstack_dashboard.dashboards.project.routers \
+    import tables as routers_tables
 
 
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
-    permissions = ('openstack.services.network',)
+class CreateRouter(routers_tables.CreateRouter):
+    url = "horizon:cisco:router_types:routers:create"
 
-dashboard.Cisco.register(Nexus1000v)
+    def get_link_url(self, datum):
+        router_type_id = self.table.get_object_id(datum)
+        return reverse_lazy(self.url, args=(router_type_id,))

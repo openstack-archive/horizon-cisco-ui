@@ -1,4 +1,4 @@
-# Copyright 2015 Cisco Systems, Inc.
+# Copyright 2016 Cisco Systems, Inc.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
@@ -12,16 +12,21 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from django.utils.translation import ugettext_lazy as _
-
-import horizon
-
-from horizon_cisco_ui.cisco import dashboard
+from horizon_cisco_ui.test import test_data
+from openstack_dashboard.test import helpers
 
 
-class Nexus1000v(horizon.Panel):
-    name = _("Nexus 1000v")
-    slug = 'nexus1000v'
-    permissions = ('openstack.services.network',)
+class AdminTestCase(helpers.BaseAdminViewTests):
+    """Extends the base Horizon AdminViewTests with Cisco UI data"""
 
-dashboard.Cisco.register(Nexus1000v)
+    def _setup_test_data(self):
+        super(AdminTestCase, self)._setup_test_data()
+        test_data.data(self)
+
+
+class APITestCase(helpers.APITestCase):
+    """Extends the base Horizon APITestCase with Cisco UI data"""
+
+    def _setup_test_data(self):
+        super(APITestCase, self)._setup_test_data()
+        test_data.data(self)
