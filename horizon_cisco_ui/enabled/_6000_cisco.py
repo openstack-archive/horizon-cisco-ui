@@ -16,6 +16,8 @@
 # The slug of the dashboard to be added to HORIZON['dashboards']. Required.
 DASHBOARD = 'cisco'
 
+AUTO_DISCOVER_STATIC_FILES = True
+
 # A list of applications to be added to INSTALLED_APPS.
 ADD_INSTALLED_APPS = [
     'horizon_cisco_ui.cisco',

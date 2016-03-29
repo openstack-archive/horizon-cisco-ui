@@ -18,7 +18,7 @@ import horizon
 class Cisco(horizon.Dashboard):
     name = _("Cisco")
     slug = "cisco"
-    default_panel = 'nexus1000v'
+    default_panel = 'device_management'
     permissions = ('openstack.roles.admin',)
 
 
