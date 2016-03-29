@@ -1,0 +1,40 @@
+{% load i18n %}
+
+<div class="detail">
+  <dl class="dl-horizontal">
+    <dt>{% trans "Booting Time" %}</dt>
+    <dd>{{ device_template.booting_time }}</dd>
+    <dt>{% trans "Config Mechanism" %}</dt>
+    <dd>{{ device_template.configuration_mechanism }}</dd>
+    <dt>{% trans "Default Credentials ID" %}</dt>
+    <dd>{{ device_template.default_credentials_id }}</dd>
+    <dt>{% trans "Desired Slots Free" %}</dt>
+    <dd>{{ device_template.desired_slots_free }}</dd>
+    <dt>{% trans "Device Driver" %}</dt>
+    <dd>{{ device_template.device_driver }}</dd>
+    <dt>{% trans "Enabled" %}</dt>
+    <dd>{{ device_template.enabled }}</dd>
+    <dt>{% trans "Flavor" %}</dt>
+    <dd>{{ device_template.flavor }}</dd>
+    <dt>{% trans "Host Category" %}</dt>
+    <dd>{{ device_template.host_category }}</dd>
+    <dt>{% trans "ID" %}</dt>
+    <dd>{{ device_template.id }}</dd>
+    <dt>{% trans "Image" %}</dt>
+    <dd>{{ device_template.image }}</dd>
+    <dt>{% trans "Name" %}</dt>
+    <dd>{{ device_template.name }}</dd>
+    <dt>{% trans "Plugging Driver" %}</dt>
+    <dd>{{ device_template.plugging_driver }}</dd>
+    <dt>{% trans "Protocol Port" %}</dt>
+    <dd>{{ device_template.protocol_port }}</dd>
+    <dt>{% trans "Service Types" %}</dt>
+    <dd>{{ device_template.service_types }}</dd>
+    <dt>{% trans "Slot Capacity" %}</dt>
+    <dd>{{ device_template.slot_capacity }}</dd>
+    <dt>{% trans "Tenant Bound" %}</dt>
+    <dd>{{ device_template.tenant_bound }}</dd>
+    <dt>{% trans "Tenant ID" %}</dt>
+    <dd>{{ device_template.tenant_id }}</dd>
+  </dl>
+</div>
