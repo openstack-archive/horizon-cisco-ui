@@ -1,0 +1,150 @@
+# OpenStack Infra <zanata@openstack.org>, 2015. #zanata
+# Rob Cresswell <robert.cresswell@outlook.com>, 2015. #zanata
+# Andi Chandler <andi@gowling.com>, 2016. #zanata
+# Andreas Jaeger <jaegerandi@gmail.com>, 2016. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: horizon-cisco-ui 0.0.1.dev23\n"
+"Report-Msgid-Bugs-To: https://bugs.launchpad.net/openstack-i18n/\n"
+"POT-Creation-Date: 2016-05-13 09:34+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-05-20 11:05+0000\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>\n"
+"Language-Team: English (United Kingdom)\n"
+"Language: en-GB\n"
+"X-Generator: Zanata 3.7.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Cisco"
+msgstr "Cisco"
+
+msgid "Cisco Firewalls"
+msgstr "Cisco Firewalls"
+
+msgid "Cisco Nexus 1000V"
+msgstr "Cisco Nexus 1000V"
+
+msgid "Create Network Profile"
+msgstr "Create Network Profile"
+
+msgid "Delete Network Profile"
+msgid_plural "Delete Network Profiles"
+msgstr[0] "Delete Network Profile"
+msgstr[1] "Delete Network Profiles"
+
+msgid "Deleted Network Profile"
+msgid_plural "Deleted Network Profiles"
+msgstr[0] "Deleted Network Profile"
+msgstr[1] "Deleted Network Profiles"
+
+msgid "Edit Network Profile"
+msgstr "Edit Network Profile"
+
+msgid "Enhanced VXLAN"
+msgstr "Enhanced VXLAN"
+
+msgid "Enter parameter (e.g. GRE)"
+msgstr "Enter parameter (e.g. GRE)"
+
+#, python-format
+msgid "Failed to create network profile %s"
+msgstr "Failed to create network profile %s"
+
+#, python-format
+msgid "Failed to delete network profile (%s)."
+msgstr "Failed to delete network profile (%s)."
+
+msgid "Failed to obtain network profile binding"
+msgstr "Failed to obtain network profile binding"
+
+#, python-format
+msgid "Failed to update network profile (%s)."
+msgstr "Failed to update network profile (%s)."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Multicast IP Range"
+msgstr "Multicast IP Range"
+
+msgid "Multicast IPv4 range(e.g. 224.0.1.0-224.0.1.100)"
+msgstr "Multicast IPv4 range (e.g. 224.0.1.0-224.0.1.100)"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Native VXLAN"
+msgstr "Native VXLAN"
+
+msgid "Network Profile"
+msgstr "Network Profile"
+
+#, python-format
+msgid "Network Profile %s was successfully created."
+msgstr "Network Profile %s was successfully created."
+
+#, python-format
+msgid "Network Profile %s was successfully updated."
+msgstr "Network Profile %s was successfully updated."
+
+msgid "Network Profiles could not be retrieved."
+msgstr "Network Profiles could not be retrieved."
+
+msgid "Nexus 1000V"
+msgstr "Nexus 1000V"
+
+msgid "Nexus 1000v"
+msgstr "Nexus 1000v"
+
+msgid "Other"
+msgstr "Other"
+
+msgid "Overlay"
+msgstr "Overlay"
+
+msgid "Physical Network"
+msgstr "Physical Network"
+
+msgid "Physical Network Name"
+msgstr "Physical Network Name"
+
+msgid "Policy Profile"
+msgstr "Policy Profile"
+
+msgid "Project"
+msgstr "Project"
+
+msgid "Projects could not be retrieved."
+msgstr "Projects could not be retrieved."
+
+msgid "Save Changes"
+msgstr "Save Changes"
+
+msgid "Segment Range"
+msgstr "Segment Range"
+
+msgid "Segment Type"
+msgstr "Segment Type"
+
+msgid "Select a project"
+msgstr "Select a project"
+
+msgid "Sub Type"
+msgstr "Sub Type"
+
+msgid "Sub Type Value (Manual Input)"
+msgstr "Sub Type Value (Manual Input)"
+
+msgid "Unable to retrieve network profile details."
+msgstr "Unable to retrieve network profile details."
+
+msgid "Unable to retrieve project information."
+msgstr "Unable to retrieve project information."
+
+msgid "Update Network Profile"
+msgstr "Update Network Profile"
+
+msgid "VLAN"
+msgstr "VLAN"
