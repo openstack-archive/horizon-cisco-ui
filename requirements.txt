@@ -9,4 +9,4 @@
 # PBR should always appear first
 pbr>=1.6 # Apache-2.0
 
-reno>=1.6.2 # Apache2
+reno>=1.8.0 # Apache2
