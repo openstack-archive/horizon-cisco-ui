@@ -1,0 +1,14 @@
+{% block main %}
+  <div id="project_id">
+      {{ projecttable_table.render }}
+  </div>
+
+  <div id="network" class="pagination pagination-sm">
+      {{ networktable_table.render }}
+  </div>
+
+  <div id="instance" class="pagination pagination-sm">
+      {{ instancetable_table.render }}
+  </div>
+
+{% endblock %}

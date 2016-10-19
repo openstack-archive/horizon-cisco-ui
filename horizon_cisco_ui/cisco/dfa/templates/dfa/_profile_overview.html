@@ -1,0 +1,15 @@
+{% load i18n %}
+<a href="#" id="profile_details_{{ name }}_{{ type }}" class="link-popover" data-toggle="popover" data-placement="right" data-trigger="focus" data-content="
+<p>
+  <h5>{% trans 'Description: ' %}</h5>
+      {{ description }}
+</p>
+" data-original-title="{% blocktrans %}">{{ name }}{% endblocktrans %}</a>
+<script type="text/javascript" charset="utf-8">
+$(function () {
+  var $profile = $("#profile_details_{{ name }}_{{ type }}");
+  if ( $profile.popover ) {
+    $profile.popover({html:true});
+  }
+});
+</script>
