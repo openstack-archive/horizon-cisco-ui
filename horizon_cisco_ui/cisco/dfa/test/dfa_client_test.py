@@ -15,11 +15,8 @@ import mock
 import platform
 
 from horizon_cisco_ui.cisco.dfa import dfa_client
-
-from networking_cisco.apps.saf.common import config
-from networking_cisco.apps.saf.common import constants
-
 from openstack_dashboard.test import helpers as test
+# import oslo_messaging
 
 
 class DFAClientTestCase(test.BaseAdminViewTests):
@@ -31,13 +28,10 @@ class DFAClientTestCase(test.BaseAdminViewTests):
         self._test_dfa_client_init()
 
     def _test_dfa_client_init(self):
-        with mock.patch('networking_cisco.apps.saf.common.rpc.DfaRpcClient') as dfa_rpc, \
-                mock.patch.object(config.CiscoDFAConfig, 'cfg') as dfa_cfg:
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.ConfigParser.ConfigParser'), \
+                mock.patch('oslo_messaging.RPCClient'), \
+                mock.patch('oslo_messaging.get_transport'):
             self.DFAClient = dfa_client.DFAClient()
-        self.url = dfa_cfg.dfa_rpc.transport_url % ({'ip': self.ip})
-        dfa_rpc.assert_called_with(self.url,
-                                   constants.DFA_SERVER_QUEUE,
-                                   exchange=constants.DFA_EXCHANGE)
 
     def test_do_precreate_network(self):
         network = dict(tenant_id=1,
@@ -46,13 +40,10 @@ class DFAClientTestCase(test.BaseAdminViewTests):
                        cfgp='defaultNetworkL2Profile')
 
         message = json.dumps(network)
-        with mock.patch.object(self.DFAClient.clnt, 'make_msg') as mock_make_msg, \
-                mock.patch.object(self.DFAClient.clnt, 'call') as mock_call:
+        with mock.patch.object(self.DFAClient.clnt, 'call') as mock_call:
             self.DFAClient.do_precreate_network(network)
 
-        rpc_make_obj = mock_make_msg.return_value
-        mock_make_msg.assert_called_with('precreate_network', {}, msg=message)
-        mock_call.assert_called_with(rpc_make_obj)
+        mock_call.assert_called_with({}, 'precreate_network', msg=message)
 
     def test_do_precreate_network_not_available_exception(self):
         network = dict(tenant_id=1,
@@ -75,7 +66,7 @@ class DFAClientTestCase(test.BaseAdminViewTests):
                        cfgp='defaultNetworkL2Profile')
 
         with mock.patch.object(self.DFAClient.clnt, 'call',
-                               side_effect=dfa_client.rpc.RPCException), \
+                               side_effect=dfa_client.messaging.MessagingException), \
                 self.assertRaises(dfa_client.exceptions.NotAvailable) as cm:
             self.DFAClient.do_precreate_network(network)
 
