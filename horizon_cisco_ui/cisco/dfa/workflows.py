@@ -19,7 +19,6 @@ from horizon import forms
 from horizon import workflows
 from horizon_cisco_ui.cisco.dfa import dfa_client
 
-from openstack_dashboard import api
 from openstack_dashboard.dashboards.project.networks import \
     workflows as upstream_networks_workflows
 
@@ -27,21 +26,20 @@ LOG = logging.getLogger(__name__)
 
 
 class DFAConfigProfileAction(workflows.Action):
-    cfg_profile = forms.ChoiceField(label=_("Config Profile"), required=False,
-                                    help_text=_("Select Config Profile to "
+    cfg_profile = forms.ChoiceField(label=_("Network Profile"), required=False,
+                                    help_text=_("Select network profile to "
                                                 "associate with Network."))
 
-    def __init__(self, request, *args, **kwargs):
-        super(DFAConfigProfileAction, self).__init__(request, *args, **kwargs)
-        self.fields['cfg_profile'].choices = \
-            self.get_config_profile_choices(request)
+    class Meta(object):
+        name = _("Programmable Fabric")
 
-    def get_config_profile_choices(self, request):
-        profile_choices = [('', _("Select a config profile"))]
-        for profile in self._get_cfg_profiles(request):
-            profile_choices.append((profile, profile))
-        return profile_choices
+    ''' This function call get_config_profiles_detail api of DFA Client
+        which fetches the profile list from Fabric Enabler using RPC,
+        and return profile names filtered by the profile Sub Type
 
+        p is an iterator over profile list that we got from the API
+        q is a filtered list of profileNames based on the condition
+    '''
     def _get_cfg_profiles(self, request):
         profiles = []
         try:
@@ -49,25 +47,33 @@ class DFAConfigProfileAction(workflows.Action):
             if not bool(dfaclient.__dict__):
                 return profiles
             cfgplist = dfaclient.get_config_profiles_detail()
-            profiles = [profile for cfgp in cfgplist
-                        if (cfgp.get('profileSubType') == 'network:universal')
-                        for profile in [cfgp.get('profileName')]]
+            profiles = [q for p in cfgplist
+                        if (p.get('profileSubType') == 'network:universal')
+                        for q in [p.get('profileName')]]
         except Exception as exc:
             exceptions.handle(request, exc.message)
         return profiles
 
-    class Meta(object):
-        name = _("Programmable Fabric")
-        help_text = _("Select Config Profile from the list "
-                      "to associate with your network.")
+    def populate_cfg_profile_choices(self, request, context):
+        profile_choices = [('', _("Select a config profile"))]
+        for profile in self._get_cfg_profiles(request):
+            profile_choices.append((profile, profile))
+        return profile_choices
+
+    def get_help_text(self, extra_context=None):
+        text = ("Network Profile:"
+                " An autoconfiguration template consisting of collection of"
+                " commands which instantiates day-1 tenant-related"
+                " configurations on CISCO Nexus switches.")
+        return text
 
 
 class DFAConfigProfileInfo(workflows.Step):
     action_class = DFAConfigProfileAction
 
     def contribute(self, data, context):
-        for key, value in data.items():
-            context[key] = value
+        for k, v in data.items():
+            context[k] = v
         return context
 
 
@@ -78,70 +84,17 @@ class DFACreateNetwork(upstream_networks_workflows.CreateNetwork):
                      DFAConfigProfileInfo)
 
     @staticmethod
-    def _create_network(self, request, data):
-        try:
-            params = {'name': data['net_name'],
-                      'admin_state_up': (data['admin_state'] == 'True'),
-                      'shared': data['shared']}
-            if api.neutron.is_port_profiles_supported():
-                params['net_profile_id'] = data['net_profile_id']
-            network = api.neutron.network_create(request, **params)
-            self.context['net_id'] = network.id
-            msg = (_('Network "%s" was successfully created.') %
-                   network.name_or_id)
-            LOG.debug(msg)
-            return network
-        except Exception as e:
-            msg = (_('Failed to create network "%(network)s": %(reason)s') %
-                   {"network": data['net_name'], "reason": e})
-            LOG.info(msg)
-            # Delete Precreated Network
-            try:
-                precreate_network = dict(tenant_id=request.user.project_id,
-                                         nwk_name=data['net_name'],
-                                         subnet=data['cidr'],
-                                         cfgp=data['cfg_profile'])
-                dfaclient = dfa_client.DFAClient()
-                if not bool(dfaclient.__dict__):
-                    return False
-                dfaclient.do_delete_precreate_network(precreate_network)
-            except Exception as exc:
-                LOG.error('Unable to delete precreated Network')
-                exceptions.handle(self.request, exc.message)
-            redirect = self.get_failure_url()
-            exceptions.handle(request, msg, redirect=redirect)
-            return False
-
-    @staticmethod
     def handle(self, request, data):
-        precreate_flag = False
-        '''Pre-create network in enabler'''
-        precreate_network = dict(tenant_id=request.user.project_id,
-                                 nwk_name=data['net_name'],
-                                 subnet=data['cidr'],
-                                 cfgp=data['cfg_profile'])
-        if data['cfg_profile']:
-            dfaclient = dfa_client.DFAClient()
-            if bool(dfaclient.__dict__):
-                try:
-                    precreate_flag = dfaclient.do_precreate_network(
-                        precreate_network)
-                except Exception as exc:
-                    LOG.error('Unable to do precreate Network')
-                    exceptions.handle(self.request, exc.message)
-                    return False
-
         network = self._create_network(request, data)
         if not network:
-            if precreate_flag:
-                # do precreate delete
-                try:
-                    dfaclient.do_delete_precreate_network(precreate_network)
-                    precreate_flag = False
-                except Exception as exc:
-                    LOG.error('Unable to delete precreatedd Network')
-                    exceptions.handle(self.request, exc.message)
             return False
+        if data['cfg_profile']:
+            dfaclient = dfa_client.DFAClient()
+            associate_data = {'id': network['id'],
+                              'cfgp': data['cfg_profile'],
+                              'name': network['name'],
+                              'tenant_id': request.user.project_id}
+            dfaclient.associate_profile_with_network(associate_data)
         # If we do not need to create a subnet, return here.
         if not data['with_subnet']:
             return True
@@ -150,11 +103,4 @@ class DFACreateNetwork(upstream_networks_workflows.CreateNetwork):
             return True
         else:
             self._delete_network(request, network)
-            if precreate_flag:
-                # do precreate delete
-                try:
-                    dfaclient.do_delete_precreate_network(precreate_network)
-                except Exception as exc:
-                    LOG.error('Unable to delete precreated Network')
-                    exceptions.handle(self.request, exc.message)
             return False
