@@ -33,42 +33,29 @@ class DFAClientTestCase(test.BaseAdminViewTests):
                 mock.patch('oslo_messaging.get_transport'):
             self.DFAClient = dfa_client.DFAClient()
 
-    def test_do_precreate_network(self):
-        network = dict(tenant_id=1,
-                       nwk_name='net1',
-                       subnet='10.0.0.0/24',
-                       cfgp='defaultNetworkL2Profile')
+    def test_do_associate_profile_with_network(self):
+        network = dict(id='1125-as45-afg5f-3457',
+                       cfgp='defaultNetworkL2Profile',
+                       name='net1',
+                       tenant_id=1)
 
         message = json.dumps(network)
         with mock.patch.object(self.DFAClient.clnt, 'call') as mock_call:
-            self.DFAClient.do_precreate_network(network)
+            self.DFAClient.associate_profile_with_network(network)
 
-        mock_call.assert_called_with({}, 'precreate_network', msg=message)
+        mock_call.assert_called_with({}, 'associate_profile_with_network',
+                                     msg=message)
 
-    def test_do_precreate_network_not_available_exception(self):
-        network = dict(tenant_id=1,
-                       nwk_name='net1',
-                       subnet='10.0.0.0/24',
-                       cfgp='defaultNetworkL2Profile')
-
-        with mock.patch.object(self.DFAClient.clnt, 'call',
-                               return_value=False), \
-                self.assertRaises(dfa_client.exceptions.NotAvailable) as cm:
-            self.DFAClient.do_precreate_network(network)
-
-        self.assertEqual('Project 1 not present in fabric enabler',
-                         str(cm.exception))
-
-    def test_do_precreate_network_rpc_exception(self):
-        network = dict(tenant_id=1,
-                       nwk_name='net1',
-                       subnet='10.0.0.0/24',
-                       cfgp='defaultNetworkL2Profile')
+    def test_associate_profile_with_network_rpc_exception(self):
+        network = dict(id='1125-as45-afg5f-3457',
+                       cfgp='defaultNetworkL2Profile',
+                       name='net1',
+                       tenant_id=1)
 
         with mock.patch.object(self.DFAClient.clnt, 'call',
                                side_effect=dfa_client.messaging.MessagingException), \
                 self.assertRaises(dfa_client.exceptions.NotAvailable) as cm:
-            self.DFAClient.do_precreate_network(network)
+            self.DFAClient.associate_profile_with_network(network)
 
         self.assertEqual('RPC to Fabric Enabler failed',
                          str(cm.exception))
