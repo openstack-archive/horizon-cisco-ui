@@ -45,7 +45,10 @@ class DFAConfigProfileAction(workflows.Action):
     def _get_cfg_profiles(self, request):
         profiles = []
         try:
-            cfgplist = dfa_client.dfa_client().get_config_profiles_detail()
+            dfaclient = dfa_client.DFAClient()
+            if not bool(dfaclient.__dict__):
+                return profiles
+            cfgplist = dfaclient.get_config_profiles_detail()
             profiles = [profile for cfgp in cfgplist
                         if (cfgp.get('profileSubType') == 'network:universal')
                         for profile in [cfgp.get('profileName')]]
@@ -98,7 +101,9 @@ class DFACreateNetwork(upstream_networks_workflows.CreateNetwork):
                                          nwk_name=data['net_name'],
                                          subnet=data['cidr'],
                                          cfgp=data['cfg_profile'])
-                dfaclient = dfa_client.dfa_client()
+                dfaclient = dfa_client.DFAClient()
+                if not bool(dfaclient.__dict__):
+                    return False
                 dfaclient.do_delete_precreate_network(precreate_network)
             except Exception as exc:
                 LOG.error('Unable to delete precreated Network')
@@ -116,14 +121,15 @@ class DFACreateNetwork(upstream_networks_workflows.CreateNetwork):
                                  subnet=data['cidr'],
                                  cfgp=data['cfg_profile'])
         if data['cfg_profile']:
-            dfaclient = dfa_client.dfa_client()
-            try:
-                precreate_flag = dfaclient.do_precreate_network(
-                    precreate_network)
-            except Exception as exc:
-                LOG.error('Unable to do precreate Network')
-                exceptions.handle(self.request, exc.message)
-                return False
+            dfaclient = dfa_client.DFAClient()
+            if bool(dfaclient.__dict__):
+                try:
+                    precreate_flag = dfaclient.do_precreate_network(
+                        precreate_network)
+                except Exception as exc:
+                    LOG.error('Unable to do precreate Network')
+                    exceptions.handle(self.request, exc.message)
+                    return False
 
         network = self._create_network(request, data)
         if not network:

@@ -13,16 +13,15 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import ConfigParser
 import json
 import logging
 import platform
-import sys
-
-from networking_cisco.apps.saf.common import config
-from networking_cisco.apps.saf.common import constants
-from networking_cisco.apps.saf.common import rpc
 
 from horizon import exceptions
+from horizon.utils.memoized import memoized
+from oslo_config import cfg
+import oslo_messaging as messaging
 
 LOG = logging.getLogger(__name__)
 
@@ -31,26 +30,41 @@ class DFAClient(object):
     """Represents fabric enabler command line interface."""
 
     def __init__(self):
+        self.setup_client()
+
+    @memoized
+    def setup_client(self):
+
+        cfgfile = '/etc/saf/enabler_conf.ini'
+        config = ConfigParser.ConfigParser()
+        res = config.read(cfgfile)
+        if not res:
+            return None
+        url = config.get('dfa_rpc', 'transport_url')
         self.ctl_host = platform.node()
-        self._cfg = config.CiscoDFAConfig().cfg
-        url = self._cfg.dfa_rpc.transport_url % ({'ip': self.ctl_host})
-        self.clnt = rpc.DfaRpcClient(url, constants.DFA_SERVER_QUEUE,
-                                     exchange=constants.DFA_EXCHANGE)
+        url = url % ({'ip': self.ctl_host})
+
+        transport = messaging.get_transport(cfg.CONF, url=url)
+        target = messaging.Target(exchange='dfa',
+                                  topic='dfa_server_q', fanout=False)
+        self.clnt = messaging.RPCClient(transport, target)
+
+        return self.clnt
 
     def do_precreate_network(self, network):
         '''Precreate network on current version of Fabric Enabler'''
 
         context = {}
         args = json.dumps(network)
-        msg = self.clnt.make_msg('precreate_network', context, msg=args)
         try:
-            resp = self.clnt.call(msg)
+            resp = self.clnt.call(context, 'precreate_network', msg=args)
             if not resp:
                 raise exceptions.NotAvailable("Project %(id)s not present in "
                                               "fabric enabler" %
                                               {'id': network.get('tenant_id')})
             return resp
-        except (rpc.MessagingTimeout, rpc.RPCException, rpc.RemoteError):
+        except (messaging.MessagingException, messaging.RemoteError,
+                messaging.MessagingTimeout):
             LOG.error("RPC: Request to precreate network failed.")
             raise exceptions.NotAvailable("RPC to Fabric Enabler failed")
 
@@ -59,15 +73,16 @@ class DFAClient(object):
 
         context = {}
         args = json.dumps(network)
-        msg = self.clnt.make_msg('delete_precreate_network', context, msg=args)
         try:
-            resp = self.clnt.call(msg)
+            resp = self.clnt.call(context, 'delete_precreate_network',
+                                  msg=args)
             if not resp:
                 raise exceptions.NotAvailable("Project %(id)s not present in "
                                               "fabric enabler" %
                                               {'id': network.get('tenant_id')})
             return resp
-        except (rpc.MessagingTimeout, rpc.RPCException, rpc.RemoteError):
+        except (messaging.MessagingException, messaging.RemoteError,
+                messaging.MessagingTimeout):
             LOG.error("RPC: Request to delete precreated network failed.")
             raise exceptions.NotAvailable("RPC to Fabric Enabler failed")
 
@@ -76,17 +91,11 @@ class DFAClient(object):
 
         context = {}
         args = json.dumps({})
-        msg = self.clnt.make_msg('get_config_profiles_detail',
-                                 context, msg=args)
         try:
-            resp = self.clnt.call(msg)
+            resp = self.clnt.call(context, 'get_config_profiles_detail',
+                                  msg=args)
             return resp
-        except (rpc.MessagingTimeout, rpc.RPCException, rpc.RemoteError):
+        except (messaging.MessagingException, messaging.RemoteError,
+                messaging.MessagingTimeout):
             LOG.error("RPC: Request for detailed Config Profiles failed.")
             raise exceptions.NotAvailable("RPC to Fabric Enabler failed")
-
-
-def dfa_client():
-    sys.argv.append('--config-file')
-    sys.argv.append('/etc/saf/enabler_conf.ini')
-    return DFAClient()
