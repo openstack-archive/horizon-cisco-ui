@@ -20,8 +20,15 @@ import platform
 
 from horizon import exceptions
 from horizon.utils.memoized import memoized
-from oslo_config import cfg
-import oslo_messaging as messaging
+
+try:
+    import oslo_messaging as messaging
+except ImportError:
+    from oslo import messaging
+try:
+    from oslo_config import cfg
+except ImportError:
+    from oslo.config import cfg
 
 LOG = logging.getLogger(__name__)
 
@@ -51,40 +58,19 @@ class DFAClient(object):
 
         return self.clnt
 
-    def do_precreate_network(self, network):
-        '''Precreate network on current version of Fabric Enabler'''
-
-        context = {}
-        args = json.dumps(network)
-        try:
-            resp = self.clnt.call(context, 'precreate_network', msg=args)
-            if not resp:
-                raise exceptions.NotAvailable("Project %(id)s not present in "
-                                              "fabric enabler" %
-                                              {'id': network.get('tenant_id')})
-            return resp
-        except (messaging.MessagingException, messaging.RemoteError,
-                messaging.MessagingTimeout):
-            LOG.error("RPC: Request to precreate network failed.")
-            raise exceptions.NotAvailable("RPC to Fabric Enabler failed")
-
-    def do_delete_precreate_network(self, network):
-        '''Delete precreate network on current version of Fabric Enabler'''
-
-        context = {}
-        args = json.dumps(network)
-        try:
-            resp = self.clnt.call(context, 'delete_precreate_network',
-                                  msg=args)
-            if not resp:
-                raise exceptions.NotAvailable("Project %(id)s not present in "
-                                              "fabric enabler" %
-                                              {'id': network.get('tenant_id')})
-            return resp
-        except (messaging.MessagingException, messaging.RemoteError,
-                messaging.MessagingTimeout):
-            LOG.error("RPC: Request to delete precreated network failed.")
-            raise exceptions.NotAvailable("RPC to Fabric Enabler failed")
+    def associate_profile_with_network(self, network):
+            context = {}
+            args = json.dumps(network)
+            try:
+                resp = self.clnt.call(context,
+                                      'associate_profile_with_network',
+                                      msg=args)
+                return resp
+            except (messaging.MessagingException, messaging.RemoteError,
+                    messaging.MessagingTimeout):
+                LOG.error("RPC: Request to associate profile with network"
+                          " failed.")
+                raise exceptions.NotAvailable("RPC to Fabric Enabler failed")
 
     def get_config_profiles_detail(self):
         '''Get all config Profiles details from the Fabric Enabler'''
