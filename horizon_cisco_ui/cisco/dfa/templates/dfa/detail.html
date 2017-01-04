@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n breadcrumb_nav %}
+{% block title %}{% trans "Fabric Enabler Hosts"%}{% endblock %}
+
+{% block main %}
+<div class="row">
+  <div class="col-sm-12">
+    {% include "cisco/dfa/_detail_overview.html" %}
+    <hr>
+    <div id="topology">
+      {{ topology_table.render }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
