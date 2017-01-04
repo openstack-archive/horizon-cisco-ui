@@ -43,10 +43,7 @@ class DFAConfigProfileAction(workflows.Action):
     def _get_cfg_profiles(self, request):
         profiles = []
         try:
-            dfaclient = dfa_client.DFAClient()
-            if not bool(dfaclient.__dict__):
-                return profiles
-            cfgplist = dfaclient.get_config_profiles_detail()
+            cfgplist = dfa_client.get_config_profiles_detail()
             profiles = [q for p in cfgplist
                         if (p.get('profileSubType') == 'network:universal')
                         for q in [p.get('profileName')]]
@@ -89,12 +86,11 @@ class DFACreateNetwork(upstream_networks_workflows.CreateNetwork):
         if not network:
             return False
         if data['cfg_profile']:
-            dfaclient = dfa_client.DFAClient()
             associate_data = {'id': network['id'],
                               'cfgp': data['cfg_profile'],
                               'name': network['name'],
                               'tenant_id': request.user.project_id}
-            dfaclient.associate_profile_with_network(associate_data)
+            dfa_client.associate_profile_with_network(associate_data)
         # If we do not need to create a subnet, return here.
         if not data['with_subnet']:
             return True

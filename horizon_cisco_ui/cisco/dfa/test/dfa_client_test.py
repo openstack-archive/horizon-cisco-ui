@@ -1,3 +1,6 @@
+# Copyright 2014 Cisco Systems, Inc.
+# All Rights Reserved.
+#
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
 #    a copy of the License at
@@ -10,7 +13,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import json
 import mock
 import platform
 
@@ -38,12 +40,13 @@ class DFAClientTestCase(test.BaseAdminViewTests):
                        name='net1',
                        tenant_id=1)
 
-        message = json.dumps(network)
-        with mock.patch.object(self.client.clnt, 'call') as mock_call:
-            self.client.associate_profile_with_network(network)
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            dfa_client.associate_profile_with_network(network)
 
-        mock_call.assert_called_with({}, 'associate_profile_with_network',
-                                     msg=message)
+        mock_client.return_value.call.assert_called_with(
+            {}, 'associate_profile_with_network', msg=network)
 
     def test_associate_profile_with_network_rpc_exception(self):
         network = dict(id='1125-as45-afg5f-3457',
@@ -51,10 +54,97 @@ class DFAClientTestCase(test.BaseAdminViewTests):
                        name='net1',
                        tenant_id=1)
 
-        with mock.patch.object(self.client.clnt, 'call',
-                               side_effect=dfa_client.messaging.MessagingException), \
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as mock_client, \
                 self.assertRaises(dfa_client.exceptions.NotAvailable) as cm:
-            self.client.associate_profile_with_network(network)
+            mock_client.return_value.call = mock.MagicMock(
+                side_effect=dfa_client.messaging.MessagingException)
+            dfa_client.associate_profile_with_network(network)
 
         self.assertEqual('RPC to Fabric Enabler failed',
                          str(cm.exception))
+
+    def test_do_associate_dci_id_to_project(self):
+        tenant = dict(tenant_id=1,
+                      tenant_name='Project1',
+                      dci_id=1001)
+
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.cast = mock.MagicMock()
+            dfa_client.do_associate_dci_id_to_project(tenant)
+
+        mock_client.return_value.cast.assert_called_with(
+            {}, 'associate_dci_id_to_project', msg=tenant)
+
+    def test_get_fabric_summary(self):
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            resp = dfa_client.get_fabric_summary()
+        mock_client.return_value.call.assert_called_with(
+            {}, 'get_fabric_summary', msg={})
+        self.assertEqual(resp, mock_client.return_value.call.return_value)
+
+    def test_get_config_profiles_detail(self):
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            resp = dfa_client.get_config_profiles_detail()
+
+        mock_client.return_value.call.assert_called_with(
+            {}, 'get_config_profiles_detail', msg={})
+        self.assertEqual(resp, mock_client.return_value.call.return_value)
+
+    def test_get_project_details(self):
+        tenant = dict(tenant_id=1)
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            resp = dfa_client.get_project_details(tenant)
+
+        mock_client.return_value.call.assert_called_with(
+            {}, 'get_project_detail', msg=tenant)
+        self.assertEqual(resp, mock_client.return_value.call.return_value)
+
+    def test_get_network_by_tenant_id(self):
+        tenant = dict(tenant_id=1)
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            resp = dfa_client.get_network_by_tenant_id(tenant)
+
+        mock_client.return_value.call.assert_called_with(
+            {}, 'get_all_networks_for_tenant', msg=tenant)
+        self.assertEqual(resp, mock_client.return_value.call.return_value)
+
+    def test_get_instance_by_tenant_id(self):
+        tenant = dict(tenant_id=1)
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            resp = dfa_client.get_instance_by_tenant_id(tenant)
+
+        mock_client.return_value.call.assert_called_with(
+            {}, 'get_instance_by_tenant_id', msg=tenant)
+        self.assertEqual(resp, mock_client.return_value.call.return_value)
+
+    def test_get_agents_details(self):
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            resp = dfa_client.get_agents_details()
+
+        mock_client.return_value.call.assert_called_with(
+            {}, 'get_agents_details', msg={})
+        self.assertEqual(resp, mock_client.return_value.call.return_value)
+
+    def test_get_agent_details_per_host(self):
+        agent = dict(tenant_id=1)
+        with mock.patch('horizon_cisco_ui.cisco.dfa.dfa_client.dfaclient') as \
+                mock_client:
+            mock_client.return_value.call = mock.MagicMock()
+            resp = dfa_client.get_agent_details_per_host(agent)
+
+        mock_client.return_value.call.assert_called_with(
+            {}, 'get_agent_details_per_host', msg=agent)
+        self.assertEqual(resp, mock_client.return_value.call.return_value)
