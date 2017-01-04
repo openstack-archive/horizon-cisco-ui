@@ -1,0 +1,19 @@
+{% load i18n  %}
+
+<div class="detail">
+  <dl class="dl-horizontal">
+    <dt>{% trans "Profile Name: " %}</dt>
+    <dd>{{ Profile_Name }}</dd>
+    <dt>{% trans "Profile Type: " %}</dt>
+    <dd>{{ Profile_Type }}</dd>
+    <dt>{% trans "Forwarding Mode: " %}</dt>
+    <dd>{{ fwding_mode }}</dd>
+    <dt>{% trans "Description: " %}</dt>
+    <dd>{{ description }}</dd>
+    <dt>{% trans "Commands: " %}</dt><br>
+    <dd>{{ commands }}</dd>
+    <dt>{% trans "Test: " %}</dt><br>
+    <dd> This is a&nbsp;test <br>scenario</dd>
+  </dl>
+</div>
+
