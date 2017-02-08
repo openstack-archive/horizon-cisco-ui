@@ -33,7 +33,7 @@ class DFA(horizon.Panel):
             if not os.path.isfile('/etc/saf/enabler_conf.ini'):
                 return False
         except Exception:
-            LOG.error("Exception occured trying to find the Nexus Fabric "
+            LOG.error("Exception occurred trying to find the Nexus Fabric "
                       "Enabler Configuration File")
             return False
         if not super(DFA, self).allowed(context):
