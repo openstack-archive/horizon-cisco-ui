@@ -26,8 +26,6 @@ horizon_network_workflows.CreateNetwork.default_steps = \
     cisco_network_workflows.DFACreateNetwork.default_steps
 horizon_network_workflows.CreateNetwork.handle = \
     cisco_network_workflows.DFACreateNetwork.handle
-horizon_network_workflows.CreateNetwork._create_network = \
-    cisco_network_workflows.DFACreateNetwork._create_network
 
 
 # TODO(robcresswell): remove example

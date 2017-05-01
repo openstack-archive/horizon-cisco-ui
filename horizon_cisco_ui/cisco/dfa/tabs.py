@@ -87,6 +87,8 @@ class NFEInfoTab(tabs.TableTab):
         try:
             tenant = dict(tenant_id=self.request.user.project_id)
             instance_list = dfa_client.get_instance_by_tenant_id(tenant)
+            if not instance_list:
+                return []
             agent_list = dfa_client.get_agents_details()
             port = {}
             for agent in agent_list:
