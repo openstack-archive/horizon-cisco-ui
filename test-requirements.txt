@@ -10,10 +10,10 @@ http://tarballs.openstack.org/horizon/horizon-master.tar.gz#egg=horizon
 # Hacking should appear first in case something else depends on pep8
 hacking<0.11,>=0.10.0
 #
-coverage>=4.0 # Apache-2.0
+coverage!=4.4,>=4.0 # Apache-2.0
 django-nose>=1.4.4 # BSD
 flake8<2.6.0,>=2.5.4 # MIT
-mock>=2.0 # BSD
+mock>=2.0.0 # BSD
 mox3!=0.19.0,>=0.7.0 # Apache-2.0
 nose # LGPL
 nose-exclude # LGPL
@@ -22,7 +22,7 @@ nosexcover # BSD
 openstack.nose-plugin>=0.7 # Apache-2.0
 oslosphinx>=4.7.0 # Apache-2.0
 selenium>=2.50.1 # Apache-2.0
-sphinx>=1.5.1 # BSD
+sphinx>=1.6.2 # BSD
 testtools>=1.4.0 # MIT
 # This also needs xvfb library installed on your OS
 xvfbwrapper>=0.1.3 #license: MIT
